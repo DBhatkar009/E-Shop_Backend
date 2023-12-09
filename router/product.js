@@ -5,6 +5,10 @@ const router = express.Router();
 // http://localhost:3000/api/v1/products getting data from database
 router.get(`/`, async(req, res)=>{
     const productList = await Product.find();
+
+    if(!productList){
+      req.status(500).json({success: false})
+    }
     res.send(productList);
 });
 
@@ -14,8 +18,7 @@ router.post(`/`, (req, res)=>{
     const product = new Product({
      name: req.body.name,
      image: req.body.image,
-     model: req.body.model,
-     price: req.body.price
+     countInStock: req.body.countInStock
     });
     product.save()
     .then((item =>{

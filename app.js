@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan'); //install packages:- npm i morgan
 const mongoose = require('mongoose'); //install packages:- npm i mongoose
 const cors = require('cors');  //install packages: npm i cors
+
 const productRouter = require('./router/product');
 const registrationRouter = require('./router/registration');
 
@@ -37,5 +38,5 @@ mongoose.connect(process.env.CONNECTION_STRING)
 
 app.listen(3000, ()=>{
     console.log(api);
-    console.log('server is running http://localhost:3000');
+    console.log('server is running http://localhost:4000');
 })
