@@ -8,7 +8,7 @@ router.get(`/`, async(req, res)=>{
     const categorieList = await Categorie.find();
 
     if(!categorieList){
-      req.status(500).json({success: false})
+      res.status(500).json({success: false})
     }
     res.send(categorieList);
 });
@@ -16,7 +16,7 @@ router.get(`/`, async(req, res)=>{
 router.get(`/:id`, async(req, res)=>{
    const category = await Categorie.findById(req.params.id);
    if(!category){
-     return req.status(404).send("Not found category by id data");
+     return res.status(404).send("Not found category by id data");
    }
    res.send(category);
 })
