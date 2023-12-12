@@ -13,6 +13,7 @@ router.get(`/`, async(req, res)=>{
     res.send(categorieList);
 });
 
+//http://localhost:4000/api/v1/categories/65780802c68f6ad52f563ebe getting findById data from database
 router.get(`/:id`, async(req, res)=>{
    const category = await Categorie.findById(req.params.id);
    if(!category){
@@ -38,7 +39,27 @@ router.post(`/`, async(req, res)=>{
 });
 
 
-// delete category data by id using this method from course
+//http://localhost:4000/api/v1/categories/65780802c68f6ad52f563ebe updated data using findByIdAndupdate data from database
+router.put(`/:id`, async(req, res)=>{
+   let category = await Categorie.findByIdAndUpdate(
+     req.params.id,
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      color: req.body.color
+    },
+    {
+       new: true
+    }
+   ).then(category=>{
+       return res.status(200).send(category);
+   }).catch(err=>{
+    return res.status(400).send(err.message);
+   })
+})
+
+
+// http://localhost:4000/api/v1/categories/65780802c68f6ad52f563ebe deleted data by findByIdAndRemove
 router.delete('/:id',async (req, res) => {
   const deletedItem = await Categorie.findByIdAndRemove(req.params.id)
   .then(deletedItem=>{
