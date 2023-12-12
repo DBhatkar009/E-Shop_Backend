@@ -7,6 +7,9 @@ const cors = require('cors');  //install packages: npm i cors
 
 const productRouter = require('./router/product');
 const registrationRouter = require('./router/registration');
+const categorieRouter = require('./router/categorie');
+const orderRouter = require('./router/order');
+const userRouter = require('./router/user');
 
 
 require('dotenv/config'); //install packages:- npm i dotenv 
@@ -22,10 +25,11 @@ const api = process.env.API_URL;
 
 
 // Routers
-app.use(`${api}/products`, productRouter)
-app.use(`${api}/registrations`, registrationRouter)
-
-
+app.use(`${api}/products`, productRouter);
+app.use(`${api}/registrations`, registrationRouter);
+app.use(`${api}/categories`, categorieRouter);
+app.use(`${api}/orders`, orderRouter);
+app.use(`${api}/users`, userRouter);
 
 mongoose.connect(process.env.CONNECTION_STRING)
 .then(()=>{

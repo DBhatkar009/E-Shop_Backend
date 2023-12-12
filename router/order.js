@@ -1,26 +1,27 @@
-const { Product } = require("../model/product");
+const { Order } = require("../model/order");
 const express = require('express');
-const router = express.Router();
+const router = express.Router()
 
-// http://localhost:4000/api/v1/products getting data from database
+
+// http://localhost:4000/api/v1/categories getting data from database
 router.get(`/`, async(req, res)=>{
-    const productList = await Product.find();
+    const orderList = await Order.find();
 
-    if(!productList){
+    if(!orderList){
       req.status(500).json({success: false})
     }
-    res.send(productList);
+    res.send(orderList);
 });
 
 
-// Post products Data to save in database
+// Post order Data to save in database
 router.post(`/`, (req, res)=>{
-    const product = new Product({
+    const order = new Order({
      name: req.body.name,
      image: req.body.image,
      countInStock: req.body.countInStock
     });
-    product.save()
+    order.save()
     .then((item =>{
       res.status(201).json(item);
     }))
@@ -33,4 +34,4 @@ router.post(`/`, (req, res)=>{
  });
 
 
- module.exports = router;
+module.exports = router;

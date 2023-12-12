@@ -4,14 +4,14 @@ const  router = express.Router();
 
 
 
-// http://localhost:3000/api/v1/registrations getting data from database
+// http://localhost:4000/api/v1/registrations getting data from database
 router.get(`/`, async(req, res)=>{
     const registration = await Registration.find();
     res.send(registration);
 });
 
 
-// http://localhost:3000/api/v1/registrations Posting registrations Data to save in database
+// http://localhost:4000/api/v1/registrations Posting registrations Data to save in database
 router.post(`/`, (req, res)=>{
 const registration = new Registration({
   firstName: req.body.firstName,
