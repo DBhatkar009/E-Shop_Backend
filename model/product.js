@@ -29,9 +29,9 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    category: {
+    categorie: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+      ref: 'Categories',
       require: true
     },
     countInStock: {

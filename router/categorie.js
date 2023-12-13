@@ -5,13 +5,26 @@ const router = express.Router()
 
 // http://localhost:4000/api/v1/categories getting data from database
 router.get(`/`, async(req, res)=>{
-    const categorieList = await Categorie.find();
+    const categorieList = await Categorie.find().populate();
 
     if(!categorieList){
       res.status(500).json({success: false})
     }
     res.send(categorieList);
 });
+
+
+// http://localhost:4000/api/v1/categories getting data by select perticular name from database
+// router.get(`/`, async(req, res)=>{
+//   const categorieList = await Categorie.find().select('name');
+
+//   if(!categorieList){
+//     res.status(500).json({success: false})
+//   }
+//   res.send(categorieList);
+// });
+
+
 
 //http://localhost:4000/api/v1/categories/65780802c68f6ad52f563ebe getting findById data from database
 router.get(`/:id`, async(req, res)=>{
