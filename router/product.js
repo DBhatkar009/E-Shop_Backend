@@ -5,31 +5,31 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 // http://localhost:4000/api/v1/products getting data from database
-router.get(`/`, async(req, res)=>{
-    const productList = await Product.find().populate('categorie');
+// router.get(`/`, async(req, res)=>{
+//     const productList = await Product.find().populate('categorie');
 
-    if(!productList){
-      res.status(500).json({success: false});
-    }
-    res.send(productList);
-});
+//     if(!productList){
+//       res.status(500).json({success: false});
+//     }
+//     res.send(productList);
+// });
 
-// http://localhost:4000/api/v1/products getting data by id from database and also populate categorie
-router.get(`/:id`, async(req, res)=>{
-  const prod = await Product.findById(req.params.id).populate('categorie');
+http://localhost:4000/api/v1/products getting data by id from database and also populate categorie
+// router.get(`/:id`, async(req, res)=>{
+//   const prod = await Product.findById(req.params.id).populate('categorie');
   
-  if(!prod){
-    return res.status(400).send("unsuccessfully populate data from category");
-  }
+//   if(!prod){
+//     return res.status(400).send("unsuccessfully populate data from category");
+//   }
 
-  res.send(prod);
+//   res.send(prod);
 
-})
+// })
 
 
 // http://localhost:4000/api/v1/products getting data by select perticular name from database
 // router.get(`/`, async(req, res)=>{
-//   const prod = await Product.find().select('name');
+//   const prod = await Product.find().select('name').populate('categorie');
   
 //   if(!prod){
 //     return res.status(404).send("something went wrong");
@@ -136,6 +136,19 @@ router.get(`/get/featured/:count`, async(req, res)=>{
     res.send('product is not with featured')
    }
    res.send(products);
+})
+
+
+router.get(`/`, async(req, res)=>{
+  let filter = {}
+   if(req.query.categorie){
+      filter = { categorie: req.query.categorie.split(',') }
+   }
+  const data = await Product.find(filter).populate('categorie');
+  if(!data){
+    return res.status(404).send("something went wrong");
+  }
+  res.status(202).send(data);
 })
 
  module.exports = router;
