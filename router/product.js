@@ -28,16 +28,16 @@ router.get(`/:id`, async(req, res)=>{
 
 
 // http://localhost:4000/api/v1/products getting data by select perticular name from database
-router.get(`/`, async(req, res)=>{
-  const prod = await Product.find().select('name');
+// router.get(`/`, async(req, res)=>{
+//   const prod = await Product.find().select('name');
   
-  if(!prod){
-    return res.status(404).send("something went wrong");
-  }
+//   if(!prod){
+//     return res.status(404).send("something went wrong");
+//   }
 
-  res.status(202).send(prod);
+//   res.status(202).send(prod);
 
-})
+// })
 
 
 // Post products Data to save in database
@@ -118,5 +118,24 @@ router.delete('/:id',async (req, res) => {
 
 })
 
+//http://localhost:4000/api/v1/products/get/count this api using for getting exact no of count product currently not working unable to fix
+// router.get(`/get/count`, async(req, res)=>{
+//   const userCountProduct = await Product.countDocuments((count)=> count) 
+//   if(!userCountProduct){
+//     return res.json({ success: false, message: 'something went wrong' });
+//   } 
+//   res.send({ count: userCountProduct });
+// })
+
+
+//http://localhost:4000/api/v1/products/get/featured/9 this api using for getting exact no of count product isFeatured: true
+router.get(`/get/featured/:count`, async(req, res)=>{
+  const count = req.params.count ? req.params.count : 0 
+   const products = await Product.find({isFeatured: true}).limit(+count)
+   if(!products){
+    res.send('product is not with featured')
+   }
+   res.send(products);
+})
 
  module.exports = router;
