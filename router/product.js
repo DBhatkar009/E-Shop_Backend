@@ -139,6 +139,7 @@ router.get(`/get/featured/:count`, async(req, res)=>{
 })
 
 
+// http://localhost:4000/api/v1/products?categorie=657ad777bea7ec47e07b9475,65780d203d7e85d97e7cd7cc filter to split the categorie from product tabel
 router.get(`/`, async(req, res)=>{
   let filter = {}
    if(req.query.categorie){
