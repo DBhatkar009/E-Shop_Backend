@@ -1,6 +1,7 @@
 const { User } = require('../model/user');
 const express = require('express');
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 
 // http://localhost:4000/api/v1/users getting data from database
@@ -14,11 +15,34 @@ router.get('/', async(req,res) => {
 })
 
 
+// http://localhost:4000/api/v1/users getting data base on user Id from database
+router.get(`/:id`, async(req,res)=>{
+    const userId = await User.findById(req.params.id).select('-passwordHash');
+
+    if(!userId){
+        return res.status(403).json({
+            success: false,
+            message: err
+        })
+    }
+    res.send(userId);
+})
+
+
+// http://localhost:4000/api/v1/users creating new data for user in Database
 router.post('/', async(req,res)=>{
     const user = new User({
         name: req.body.name,
-        image: req.body.image,
-        countInStock: req.body.countInStock
+        email: req.body.email,
+        street: req.body.street,
+        passwordHash: bcrypt.hashSync(req.body.passwordHash, 10),
+        city: req.body.city,
+        apartment: req.body.apartment,
+        zip: req.body.zip,
+        country: req.body.country,
+        phone: req.body.phone,
+        isAdmin: req.body.isAdmin,
+
     });
     user.save()
     .then((item =>{
@@ -31,6 +55,40 @@ router.post('/', async(req,res)=>{
         })
     })
 })
+
+
+// http://localhost:4000/api/v1/users Updateing a data by id with password/without password from database 
+router.put(`/:id`, async(req, res)=>{
+  const userExist = await User.findById(req.params.id);  
+ let passHash
+ if(req.body.passwordHash){
+    passHash = bcrypt.hashSync(req.body.passwordHash, 10);       
+ }  else {
+    passHash =  userExist.passwordHash;
+ }  
+    let Use = await User.findByIdAndUpdate(
+      req.params.id,
+     {
+        name: req.body.name,
+        email: req.body.email,
+        street: req.body.street,
+        passwordHash: passHash,
+        city: req.body.city,
+        apartment: req.body.apartment,
+        zip: req.body.zip,
+        country: req.body.country,
+        phone: req.body.phone,
+        isAdmin: req.body.isAdmin,
+     },
+     {
+        new: true
+     }
+    ).then(use=>{
+        return res.status(210).send(use);
+    }).catch(err=>{
+     return res.status(420).send(err.message);
+    })
+  })
 
 
 module.exports = router;
