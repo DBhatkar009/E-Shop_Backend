@@ -2,7 +2,7 @@ const { User } = require('../model/user');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
-
+const jwt = require('jsonwebtoken');
 
 // http://localhost:4000/api/v1/users getting data from database
 router.get('/', async(req,res) => {
@@ -90,5 +90,45 @@ router.put(`/:id`, async(req, res)=>{
     })
   })
 
+
+  router.post(`/login`, async(req, res)=>{
+    const email= await User.findOne({email: req.body.email})
+    if(!email){
+       return res.status(202).send('unable to login user');
+    }
+
+    if(email &&  bcrypt.compareSync(req.body.passwordHash, email.passwordHash)){
+        const token = jwt.sign(
+            {
+                userId: email.id
+            },
+            'secret',
+            {
+                expiresIn: '1d'
+            }
+
+        )
+        res.status(202).send({user: email.email, token: token });
+    }
+    else {
+        res.status(403).send('password not match');
+    }
+    res.send(email)
+  })
+
+
+
+
+  //http://localhost:4000/api/v1/users/657d6cfb15b7a77d9fdc0100 delete api findByIdRemove
+  router.delete(`/:id`, async(req, res)=>{
+     const item = await User.findByIdAndRemove(req.params.id)
+     .then((item)=>{ 
+        return res.send('successfully removed from user'); 
+    }).catch(()=>{ 
+        return res.status(400).send('unable to delete this user'); 
+    })
+  })
+
+  
 
 module.exports = router;

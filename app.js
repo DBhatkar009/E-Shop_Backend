@@ -10,6 +10,8 @@ const registrationRouter = require('./router/registration');
 const categorieRouter = require('./router/categorie');
 const orderRouter = require('./router/order');
 const userRouter = require('./router/user');
+const authJwt = require('./helper/jwt');
+
 
 
 require('dotenv/config'); //install packages:- npm i dotenv 
@@ -21,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(cors());
 app.use('*', cors());
+app.use(authJwt);
 const api = process.env.API_URL;
 
 
@@ -30,6 +33,7 @@ app.use(`${api}/registrations`, registrationRouter);
 app.use(`${api}/categories`, categorieRouter);
 app.use(`${api}/orders`, orderRouter);
 app.use(`${api}/users`, userRouter);
+
 
 mongoose.connect(process.env.CONNECTION_STRING)
 .then(()=>{
