@@ -10,7 +10,7 @@ const registrationRouter = require('./router/registration');
 const categorieRouter = require('./router/categorie');
 const orderRouter = require('./router/order');
 const userRouter = require('./router/user');
-const authJwt = require('./helper/jwt');
+// const authJwt = require('./helper/jwt');
 
 
 
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(cors());
 app.use('*', cors());
-app.use(authJwt);
+// app.use(authJwt);
 const api = process.env.API_URL;
 
 
