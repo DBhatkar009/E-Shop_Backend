@@ -96,26 +96,15 @@ router.put(`/:id`, async(req, res)=>{
   router.post(`/login`, async(req, res)=>{
     const email= await User.findOne({email: req.body.email})
     if(!email){
-       return res.status(202).send('unable to login user');
+       return res.status(404).send('unable to login user');
     }
 
     if(email &&  bcrypt.compareSync(req.body.passwordHash, email.passwordHash)){
-        const token = jwt.sign(
-            {
-                userId: email.id
-            },
-            'secret',
-            {
-                expiresIn: '1d'
-            }
-
-        )
-        res.status(202).send({user: email.email, token: token });
+        res.status(202).send('User Auhenticated successfully');
     }
     else {
-        res.status(403).send('password not match');
-    }
-    res.send(email)
+        res.status(403).send('password is wrong');
+    } 
   })
 
 
