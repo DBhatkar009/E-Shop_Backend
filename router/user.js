@@ -96,7 +96,7 @@ router.put(`/:id`, async(req, res)=>{
   router.post(`/login`, async(req, res)=>{
     const email= await User.findOne({email: req.body.email})
     if(!email){
-       return res.status(404).send('unable to login user');
+       return res.status(404).send('email id is wrong');
     }
 
     if(email &&  bcrypt.compareSync(req.body.passwordHash, email.passwordHash)){
