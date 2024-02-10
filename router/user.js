@@ -91,6 +91,8 @@ router.put(`/:id`, async(req, res)=>{
   })
 
 
+
+ // Authentication user login getting token 
   router.post(`/login`, async(req, res)=>{
     const email= await User.findOne({email: req.body.email})
     if(!email){
