@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router()
 
 
-// http://localhost:4000/api/v1/categories getting data from database
+// http://localhost:4000/api/v1/orders getting data from database
 router.get(`/`, async(req, res)=>{
     const orderList = await Order.find();
 
@@ -31,6 +31,17 @@ router.post(`/`, (req, res)=>{
          success: false
       })
     })
+ });
+
+
+
+ // http://localhost:4000/api/v1/orders Deleteing data by id
+ router.delete(`/`, async(req, res)=>{
+   const deleteItem = await Order.findByIdAndDelete(req.params.id).
+   then(deleteItem=>{
+    return res.status(202).json({ success: true, message: 'Successfully deleted data' });
+   }).catch(err=>{ return res.status(404).send(err) });
+
  });
 
 
