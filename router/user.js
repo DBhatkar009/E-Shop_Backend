@@ -92,20 +92,31 @@ router.put(`/:id`, async(req, res)=>{
 
 
 
- // Authentication user login getting token 
+
+//http://localhost:4000/api/v1/users/login Authentication user login getting token 
   router.post(`/login`, async(req, res)=>{
     const email= await User.findOne({email: req.body.email})
+    const secret = process.env.secret;
     if(!email){
        return res.status(404).send('email id is wrong');
     }
 
     if(email &&  bcrypt.compareSync(req.body.passwordHash, email.passwordHash)){
-        res.status(202).send('User Auhenticated successfully');
+         const token = jwt.sign(
+            {
+                userId: email.id
+            },
+           secret,
+            {
+                expiresIn: '1d'
+            }
+         )
+        res.status(202).send({ email: email.email, token: token });
     }
     else {
         res.status(403).send('password is wrong');
     } 
-  })
+  });
 
 
 
