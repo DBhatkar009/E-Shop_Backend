@@ -40,16 +40,15 @@ router.get(`/`, async (req, res) => {
 });
 
 //localhost:4000/api/v1/products getting data by id from database and also populate categorie
-// router.get(`/:id`, async(req, res)=>{
-//   const prod = await Product.findById(req.params.id).populate('categorie');
+router.get(`/:id`, async (req, res) => {
+  const prod = await Product.findById(req.params.id).populate("categorie");
 
-//   if(!prod){
-//     return res.status(400).send("unsuccessfully populate data from category");
-//   }
+  if (!prod) {
+    return res.status(400).send("unsuccessfully populate data from category");
+  }
 
-//   res.send(prod);
-
-// })
+  res.send(prod);
+});
 
 // http://localhost:4000/api/v1/products getting data by select perticular name from database
 // router.get(`/`, async(req, res)=>{
@@ -143,7 +142,7 @@ router.put(`/:id`, uploadOptions.single("image"), async (req, res) => {
     },
     {
       new: true,
-    }
+    },
   )
     .then((updatedPro) => {
       return res.status(210).send(updatedPro);
@@ -220,7 +219,7 @@ router.put(
       },
       {
         new: true,
-      }
+      },
     )
       .then((pro) => {
         return res.status(210).send(pro);
@@ -228,7 +227,7 @@ router.put(
       .catch((err) => {
         return res.status(420).send(err.message);
       });
-  }
+  },
 );
 
 module.exports = router;
