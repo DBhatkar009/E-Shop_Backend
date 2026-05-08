@@ -50,17 +50,16 @@ router.get(`/:id`, async (req, res) => {
   res.send(prod);
 });
 
-// http://localhost:4000/api/v1/products getting data by select perticular name from database
-// router.get(`/`, async(req, res)=>{
-//   const prod = await Product.find().select('name').populate('categorie');
+//localhost:4000/api/v1/products getting data by select perticular name from database
+http: router.get(`/`, async (req, res) => {
+  const prod = await Product.find().select("name").populate("categorie");
 
-//   if(!prod){
-//     return res.status(404).send("something went wrong");
-//   }
+  if (!prod) {
+    return res.status(404).send("something went wrong");
+  }
 
-//   res.status(202).send(prod);
-
-// })
+  res.status(202).send(prod);
+});
 
 // Post products Data to save in database
 http: router.post(`/`, uploadOptions.single("image"), async (req, res) => {
